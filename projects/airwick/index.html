@@ -1,0 +1,635 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Airwick</title>
+
+<link href="css/work_style.css" rel="stylesheet" type="text/css" />
+<link href="fonts/stylesheet.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+<script type="text/javascript" src="js/preloadScript.js"></script>
+
+<script type="text/javascript" src="fancybox/fancybox.js"></script>
+<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+<script>
+	$(document).ready(function(){
+		var sparkleArr=new Array('sparkle0','sparkle2','sparkle0','sparkle4','sparkle1','sparkle0','sparkle2','sparkle1','sparkle3','sparkle3','sparkle4');
+		var footerToogle=false;
+		
+	  $(".bt").click(function(){
+		  if(!footerToogle){
+			$(".expand_bg").stop().animate({'top':'0px'},{complete:function(){
+				var imgtag=$(".bt").find('img');
+				imgtag.attr('src','image/aerrow2.jpg')
+			}});
+			$(".maskbg").css({"z-index":74});
+			footerToogle=true;
+		  }else{
+			 footerToogle=false;
+			 $(".maskbg").css({"z-index":44});
+			 $(".expand_bg").stop().animate({'top':'90px'},{complete:function(){
+				var imgtag=$(".bt").find('img');
+				imgtag.attr('src','image/aerrow.jpg')
+			}});
+		  }
+	  });
+	  
+	  $('.airwickbottles').on('mouseover',bottleanimate);
+  
+	  function bottleanimate(){
+		  $('.bottle2').css({'display':'block'});
+		  $('.bottle2').stop().animate({'opacity':'1'},1000);
+	  }
+	 
+	 
+	 //initAnimation();
+	 var blowInt;
+	 
+	 function initAnimation(){
+		//small blowAnimation
+		  smallblowAnimation($('.smallblow1'));
+		  blowInt=setInterval(smallblowAnimation,2000,$('.smallblow2'));
+		  
+		  initSmallSparkle();
+		  setInterval(initSmallSparkle,100); 
+		  
+		  bigsparkles();
+         
+		  
+		 // $('.bottle2').css({'display':'block'});
+		  //$('.bottle2').stop().animate({'opacity':1},1000);
+	 }
+	 
+	 
+	 function smallblowAnimation(mydiv){
+		 clearInterval(blowInt);
+		 
+		 $(mydiv).animate({'opacity':'1'},{duration:2000,complete:function(){
+			$(this).animate({'opacity':'.2'},{duration:2000,complete:function(){smallblowAnimation($(this))}})
+		 }});
+	 }
+	 
+	 /*Small Blow sparkle Animation*/
+ 
+	 function initSmallSparkle(){
+		var randVal=Math.round(Math.random()*(sparkleArr.length-1));
+		var spk=sparkleArr[randVal];
+		var Xpos=400;
+		var Ypos=Math.round(Math.random()*100);
+		
+		$('.smallsparkles').append("<div class='smallsparkles1' xp="+Xpos+" yp="+Ypos+"><img src=image/"+spk+".png /></div>");
+		var Td=$('.smallsparkles1').length;
+		var Cd=$('.smallsparkles1')[Td-1];
+	
+		$(Cd).stop().animate({'right':Math.round(Xpos*(.85))+'px','top':Math.round(Ypos*(.80))+'px'},{duration:8000,ease:'linear',complete:function(){
+			var x=$(this).attr('xp');
+			var y=$(this).attr('yp');
+				
+			$(this).stop().animate({'right':x+'px','top':y+'px','opacity':0},{duration:2000,ease:'linear',complete:function(){
+				$(this).remove();
+			}});	
+		}});
+	 }
+	 
+	 /* Big gblow Sparkle Animation*/
+	 var bigSparklesArr=new Array('flowerSparkle1','sparkle2','sparkle3','flowerSparkle1','flowerSparkle3','flowerSparkle3','flowerSparkle3','flowerSparkle2','sparkle3','sparkle3','sparkle3','sparkle2','sparkle0','sparkle0');
+	 //bigsparkles();
+ 
+	 function bigsparkles(){
+		 $('.bigblow').stop().animate({'opacity':1},{duration:1000,complete:function(){
+	
+			 for(i=0;i<100;i++){
+				var randval=Math.round(Math.random()*(bigSparklesArr.length-1));
+				var img=bigSparklesArr[randval];
+					$('.bigblowsparkle').append("<div class=bigSparkles><img src=image/"+img+".png></div>");
+					
+				var TL=$('.bigSparkles').length-1;
+				var sprk=$('.bigSparkles')[TL];
+				var RT=Math.round(Math.random()*360);
+				var LFT=Math.round(Math.random()*950);
+				var TOP=Math.round(Math.random()*160)+100;
+				
+				$(sprk).css({'-ms-transform': 'rotate('+RT+'deg)','-webkit-transform': 'rotate('+RT+'deg)','transform': 'rotate('+RT+'deg)','left':LFT+'px','top':TOP+'px'});
+				
+				var rv=Math.round(Math.random()*100);
+				if(rv>=20){
+					animDelay($(sprk));
+				}
+				
+			 }//for loop end
+			
+			$('.bigblowsparkle').stop().animate({'opacity':1},1000);
+			 
+		}});//big blow div visible animation complete
+		 
+	 }//bigsparkles
+ 
+	 function animDelay(spk){
+		 var randval=Math.round(Math.random()*2000)+100;
+		 
+		 setTimeout(function() {
+			blinkAnimation($(spk))
+		}, randval);
+	 }
+	 
+	 function blinkAnimation(mysparkle){
+		 $(mysparkle).stop().animate({'opacity':'.3'},{'duration':1000,ease:'easeInOutBounce',complete:function(){
+			 $(this).stop().animate({'opacity':'1'},{'duration':800,complete:function(){
+				 blinkAnimation($(this));
+			 }});
+		}});
+	 }
+	   
+ 	 $('.btnhow').on('mouseover',btnhover);
+	 $('.btnbuy').on('mouseover',btnhover);
+	 $('.btnabout').on('mouseover',btnhover);
+	 
+	 $('.btnhow').on('mouseout',btnout);
+	 $('.btnbuy').on('mouseout',btnout);
+	 $('.btnabout').on('mouseout',btnout);
+ 	
+	function btnhover(){
+		var myglow=$(this).find('.btnglow');
+		$(myglow).stop().animate({'opacity':'1'});
+		clearInterval(btnsInt);
+	}
+	
+	function btnout(){
+		var myglow=$(this).find('.btnglow');
+		$(myglow).stop().animate({'opacity':'0'});
+		
+		bottleout();
+	}
+ 
+	 $('.bottlehit').on('mouseover',bottlehover);
+	 $('.bottlehit').on('mouseout',bottleout);
+
+ 	var btnsInt;
+	
+ 	function bottlehover(){
+		 $('.btnhow').css({'display':'block'});
+		 $('.btnbuy').css({'display':'block'});
+		 $('.btnabout').css({'display':'block'});
+		 
+		 $('.btnhow').stop().animate({'opacity':'1','top':'-10px','left':'80px'},{duration:800,ease:'easeOutQuart'});
+		 $('.btnbuy').stop().animate({'opacity':'1','top':'90px','left':'120px'},{duration:800,ease:'easeOutQuart'});
+		 $('.btnabout').stop().animate({'opacity':'1','top':'190px','left':'90px'},{duration:800,ease:'easeOutQuart'});
+ 	}
+ 
+ 	function bottleout(){
+		clearInterval(btnsInt);
+		btnsInt=setInterval(bottleoutbtnAnim,500);
+ 	}
+ 
+ 	function bottleoutbtnAnim(){
+		 clearInterval(btnsInt);
+		 
+		 $('.btnhow').stop().animate({'opacity':'0','top':'100px','left':'0px'},{duration:800,ease:'easeOutQuart'});
+		 $('.btnbuy').stop().animate({'opacity':'0','top':'100px','left':'0px'},{duration:800,ease:'easeOutQuart'});
+		 $('.btnabout').stop().animate({'opacity':'0','top':'100px','left':'0px'},{duration:800,ease:'easeOutQuart',complete:function(){
+				$('.btnhow').css({'display':'none'});
+				$('.btnbuy').css({'display':'none'});
+				$('.btnabout').css({'display':'none'});
+			}})
+	}
+	
+	var scene=1;
+	guysAnimate()
+	
+	function guysAnimate(){
+		switch(scene){
+			case 1:		$('.guy1').stop().animate({'opacity':1},800);
+						$('.copy1').stop().animate({'left':'380px','opacity':1},{duration:500,ease:'liner',complete:function(){
+							$('.copy1').stop().animate({'left':'380px'},{duration:3000,ease:'liner',complete:function(){
+								setTimeout(function() {
+									scene++;
+									guysAnimate()
+									}, 6000);
+								
+							}});	
+						}});
+						$('.girl1').stop().animate({'opacity':1},{duration:800,complete:function(){
+						
+						}});
+						break;
+						
+			case 2:		$('.guy1').stop().animate({'opacity':0},800);
+			$('.copy1').stop().animate({'left':'350px','opacity':'0'},{duration:500,ease:'liner'});
+						$('.copy2').stop().animate({'opacity':0},{duration:1000,ease:'liner',complete:function(){
+							$('.copy2').stop().animate({'left':'360px','opacity':1},{duration:1000,ease:'liner',complete:function(){
+								$('.copy2').stop().animate({'left':'360px'},{duration:3500,ease:'liner',complete:function(){
+									$('.copy2').stop().animate({'left':'340px','opacity':'0'},{duration:500,ease:'liner'});
+									
+								}});	
+							}});
+						}});
+	
+	
+							$('.girl1').stop().animate({'opacity':0},{duration:800,complete:function(){
+							$('.guy2').stop().animate({'opacity':1},800);
+							$('.girl2').stop().animate({'opacity':1},{duration:800,complete:function(){
+								
+								setTimeout(function() {
+										scene++;
+										guysAnimate()
+										}, 3500);
+										
+							}});							
+						}}); break;
+						
+			case 3:		$('.copy3').stop().animate({'opacity':0},{duration:1000,ease:'liner',complete:function(){
+							$('.copy3').stop().animate({'left':'380px','opacity':1},{duration:500,ease:'liner',complete:function(){
+								$('.copy3').stop().animate({'left':'380px'},{duration:4000,ease:'liner',complete:function(){
+									$('.copy3').stop().animate({'left':'360px','opacity':'0'},{duration:500,ease:'liner'});
+									
+								}});	
+							}});
+						}});
+						
+						$('.guy2').stop().animate({'opacity':0},800);	
+						$('.girl2').stop().animate({'opacity':0},{duration:800,complete:function(){
+								$('.guy3').stop().animate({'opacity':1},800);
+								$('.girl3').stop().animate({'opacity':1},{duration:800,complete:function(){
+									
+									setTimeout(function() {
+											scene++;
+											guysAnimate()
+											}, 4000);
+									
+								}});							
+						}}); break;		
+						
+			case 4:		
+						$('.copy4').stop().animate({'opacity':0},{duration:1000,ease:'liner',complete:function(){
+							$('.copy4').stop().animate({'left':'400px','opacity':1},{duration:500,ease:'liner',complete:function(){
+								$('.copy4').stop().animate({'left':'400px'},{duration:4000,ease:'liner',complete:function(){
+									
+								}});	
+							}});
+						}});
+						
+						$('.guy3').stop().animate({'opacity':0},800);
+						$('.girl3').stop().animate({'opacity':0},{duration:800,complete:function(){
+							
+							$('.guy4').stop().animate({'opacity':1},800);
+							$('.girl4').stop().animate({'opacity':1},800);
+							$('.girlHand').stop().animate({'opacity':1},{duration:800,complete:function(){
+								
+								initAnimation();
+								
+								setTimeout(function() {
+										scene++;
+										guysAnimate()
+										}, 4000);
+								
+							}});							
+						}}); break;		
+						
+			
+			case 5:		$('.guy4').stop().animate({'opacity':0},800);
+						$('.guy4').stop().animate({'opacity':0},800);
+						$('.girl4').stop().animate({'opacity':0},800);
+						
+						$('.copy5').stop().animate({'opacity':1},800);
+						$('.girlHand').stop().animate({'opacity':0},{duration:800,complete:function(){;
+						
+							$('.guy5').stop().animate({'opacity':1},800);
+							$('.girl5').stop().animate({'opacity':1},{duration:800,complete:function(){
+								
+								
+								setTimeout(function() {
+										scene++;
+										guysAnimate()
+										}, 4000);
+								
+							}});							
+						}}); break;	
+			
+			case 6:			
+							$('.copy5').stop().animate({'opacity':0,'left':'548px'},1000);
+							$('.copy4').stop().animate({'left':'380px','opacity':'0'},{duration:1000,ease:'liner',complete:function(){
+								$('.textromance').stop().animate({'opacity':1,'left':'470px'},2000);
+								$('.textturn').stop().animate({'opacity':1,'left':'300px'},{duration:2000,complete:function(){
+									$('.replaybtn').css({'display':'block'});
+								}});
+								$('.textblissful').stop().animate({'opacity':1},2000);
+							}});
+
+						
+						$('.guy5').stop().animate({'opacity':0},800);
+						$('.girl5').stop().animate({'opacity':0},800);
+						
+							$('.guy6').stop().animate({'opacity':1},{duration:800,complete:function(){
+								
+								console.log('animation finish');
+								/*setTimeout(function() {
+										scene++;
+										guysAnimate()
+										}, 4000);
+								*/
+							}});							
+						 break;							
+															
+		
+		}
+	}
+	
+	$('.replaybtn').on('click',function(){
+		window.location.reload(false);
+	});
+	
+	
+	$('.arjitbtn').on('mouseover',function(){
+		var hoverdiv=$(this).find('.footerhover');
+		
+		$(hoverdiv).stop().animate({'opacity':'1'},500);
+		$('.feedbtn').stop().animate({'opacity':'.3'},500);
+		$('.tvcbtn').stop().animate({'opacity':'.3'},500);
+	})
+	
+	$('.arjitbtn').on('mouseout',function(){
+		var hoverdiv=$(this).find('.footerhover');
+		
+		$(hoverdiv).stop().animate({'opacity':'0'},500);
+		$('.feedbtn').stop().animate({'opacity':'1'},500);
+		$('.tvcbtn').stop().animate({'opacity':'1'},500);
+	})
+	
+	$('.feedbtn').on('mouseover',function(){
+		var hoverdiv=$(this).find('.footerhover');
+		
+		$(hoverdiv).stop().animate({'opacity':'1'},500);
+		$('.arjitbtn').stop().animate({'opacity':'.3'},500);
+		$('.tvcbtn').stop().animate({'opacity':'.3'},500);
+	})
+	
+	$('.feedbtn').on('mouseout',function(){
+		var hoverdiv=$(this).find('.footerhover');
+		
+		$(hoverdiv).stop().animate({'opacity':'0'},500);
+		$('.arjitbtn').stop().animate({'opacity':'1'},500);
+		$('.tvcbtn').stop().animate({'opacity':'1'},500);
+	})
+	
+	$('.tvcbtn').on('mouseover',function(){
+		var hoverdiv=$(this).find('.footerhover');
+		
+		$(hoverdiv).stop().animate({'opacity':'1'},500);
+		$('.arjitbtn').stop().animate({'opacity':'.3'},500);
+		$('.feedbtn').stop().animate({'opacity':'.3'},500);
+	})
+	
+	$('.tvcbtn').on('mouseout',function(){
+		var hoverdiv=$(this).find('.footerhover');
+		
+		$(hoverdiv).stop().animate({'opacity':'0'},500);
+		$('.arjitbtn').stop().animate({'opacity':'1'},500);
+		$('.feedbtn').stop().animate({'opacity':'1'},500);
+	})
+	
+	//$(".logo").css({"position":"absolute","top":$(window).height/2,"left":$(window).window/2,"width":"135px","height":"128px")});
+	$(".preloadlogo").css({"position":"absolute","top":(($(document).height()-200)/2)+"px","left":(($(document).width()-100)/2)+"px","height":"128px"});
+	
+	$('.terms').css({'left':($(window).width()/2)-20})
+	$('.bt').css({'left':($(window).width()/2)+10})
+	
+});
+
+</script>
+
+</head>
+<body>
+<div class="preloader">
+	<div class="preloadlogo">
+    		<div class="bwlogo"><img src="image/BWlogo.png"/></div>
+           <!-- <div class="logomask"></div> -->
+            <div class="clogo"> 
+            <div class="logoimg">        	
+            	<img src="image/logo.png"/>
+                </div>
+            </div>
+    </div>
+</div>
+<div class="countainer">
+	<div class="header">
+    	<div class="header_img">
+        <ul>
+        	<li class="extra"><a href="#"><img src="image/about.png" /></a></li>
+        	<li><a href="#" target="_blank"><img src="image/t_logo.png" /></a></li>
+        	<li><a href="#" target="_blank"><img src="image/you_logo.png" /></a></li>
+        	<li><a href="#" target="_blank"><img src="image/fb_logo.png" /></a></li>
+        </ul>
+        </div>
+    </div>
+    
+    <div class="menu">
+    <div style="margin:0 auto; position:relative;">
+    	<div class="logo"><a href="#"><img src="image/logo.png" /></a></div>
+        <div class="main_menu">
+        	<ul>
+            	<li class="dis"><a href="#">DISCOVER</a>
+                <div class="dropdown-4columns">	
+            		<div class="col-1">
+                	<ul class="blue">
+                    <a href="#" style="background:none;"><li class="urlImg"></li></a>
+               		</ul>   
+                	</div> 
+                    
+                    <div class="col-1">
+                	<ul class="blue">
+                    <a href="#" style="background:none;"><li class="urlImg2"></li></a>
+               		</ul>   
+                	</div>
+                    
+                    <div class="col-1">
+                	<ul class="blue">
+                    <a href="#" style="background:none;"><li class="urlImg3"></li></a>
+               		</ul>   
+                	</div>
+                    
+                     <div class="col-1">
+                	<ul class="blue">
+                    <a href="#" style="background:none;"><li class="urlImg9"></li></a>
+               		</ul>   
+                	</div>
+                    
+                    <div class="col-1">
+                	<ul class="blue">
+                    <a href="#" style="background:none;"><li class="urlImg10"></li></a>
+               		</ul>   
+                	</div>
+                    
+                    <div class="col-3">
+                	<ul class="blue">
+                    <a href="#" style="background:none;"><li class="urlImg4"></li></a>
+               		</ul>   
+                	</div>
+                    
+                    <div class="col-3">
+                	<ul class="blue">
+                    <a href="#" style="background:none;"><li class="urlImg5"></li></a>
+               		</ul>   
+                	</div>
+           		 </div>
+               </li>
+                <li class="line"><img src="image/line.png" /></li>
+                <li class="exp"><a href="#">EXPERIENCE</a>
+
+				<div class="dropdown-5columns">	
+            		<div class="col-2">
+                	<ul class="blue2">
+                    <a href="#" class="howtouse3" style="background:none"><li class="urlImg6"></li></a>
+               		</ul>   
+                	</div> 
+                    
+                    <div class="col-2">
+                	<ul class="blue2">
+                    <a href="#" style="background:none;"><li class="urlImg7"></li></a>
+               		</ul>   
+                	</div>
+                    
+                    <div class="col-2">
+                	<ul class="blue2">
+                    <a href="#" style="background:none;"><li class="urlImg8"></li></a>
+               		</ul>   
+                	</div>
+                 </div>
+                
+                </li>
+            </ul>
+        </div>
+    </div>
+    </div>
+    <!--  CHANGES START AMIT -->
+    <div class="animated_part_parent">
+        <div class="animated_part">
+        		<div class="bottlehit"></div>
+            	<div class="roundbtns">
+                <a href="Second_screen.html" class="howtouse6">
+                	<div class="btnhow">
+                    	<div class="btnglow"><img src="image/roundborder.png"/></div>
+                        <div class="btn"><img src="image/howtouse.png"/></div>
+                    </div></a>
+                    
+                    <div class="btnbuy">
+                    	<div class="btnglow"><img src="image/roundborder.png"/></div>
+                        <div class="btn"><img src="image/buyimage.png"/></div>
+                    </div>
+                    
+                    <a href="first_screen.html" class="howtouse6">
+                    <div class="btnabout">
+                    	<div class="btnglow"><img src="image/roundborder.png"/></div>
+                        <div class="btn"><img src="image/aboutimage.png"/></div>
+                    </div></a>
+                </div>
+        	
+			<div class="animationdiv">
+            	<div class="airwickbottles">                    
+                	<div class="bottle1"><img src="image/AWBottle.png"/></div>
+                	<div class="bottle2"><img src="image/AWBottleGlow.png"/></div>                    
+                </div>
+                
+                <div class="smallblow">
+                	<div class="smallblow1"><img src="image/SmallBlowA.png"/></div>
+                    <div class="smallblow2"><img src="image/SmallBlowB.png"/></div>
+                    <div class="smallsparkles"></div>
+                </div>
+                
+                <div class="bigblow">
+                    <div class="bigblowimg"><img src="image/BigBlow.png"/></div>
+                    <div class="bigblowsparkle"></div>
+            	</div>
+            </div>
+                
+            <div class="airwick_table"><img src="image/table.png"/></div>
+                       
+            
+            <div class="centreTableimg"><img src="image/centreTable.png"/></div>
+            <div class="guys">
+            		<!--  SHOT1 -->
+                	<div class="guy1"><img src="image/guy1.png"/></div>
+                    <div class="girl1"><img src="image/girl1.png"/></div>
+                    <div class="copy1">He saw beautiful rain.</div>
+                    
+                    <!-- SHOT2 -->
+                    <div class="guy2"><img src="image/guy2.png"/></div>
+                    <div class="girl2"><img src="image/girl2.png"/></div>
+                    <div class="copy2">But she noticed only the rug stain.</div>
+                    
+                    <!-- SHOT3 -->
+                    <div class="guy3"><img src="image/guy3.png"/></div>
+                    <div class="girl3"><img src="image/girl3.png"/></div>
+                    <div class="copy3">Love has its khitpits.</div>
+                    
+                    <!-- SHOT4 -->
+                    <div class="guy4"><img src="image/guy4.png"/></div>
+                    <div class="girl4"><img src="image/girl4.png"/></div>
+                    <div class="copy4">Switch the mood</div>
+                    
+                    <!-- SHOT5 -->
+                    <div class="textromance"><img src="image/romancetext.png"/></div>
+                    <div class="textturn"><img src="image/turnon.png"/></div>
+                    <div class="textblissful">Blissful scents that rekindle the love everyday.</div>
+                    <div class="guy5"><img src="image/guy5.png"/></div>
+                    <div class="girl5"><img src="image/girl5.png"/></div>
+                    <div class="copy5">and...</div>
+                    
+                    <!-- SHOT6 -->
+                    <div class="guy6"><img src="image/girlandguy.png"/></div>  
+                    <div class="replaybtn"><img src='image/roundbtn.png'/></div>
+                                   
+            </div>
+            
+            <div class="girlHand"><img src="image/girl_hand.png"/></div>
+            
+        </div>
+    </div><!--  animated part div Ends -->
+  <!--  CHANGES END AMIT  -->
+  <div class="maskbg">
+                <div class="expand_bg">
+                    <div class="bt"><img src="image/aerrow.jpg" /></div>
+                    <div class="hide_part">
+	                    <ul>
+                    		<li class="arjitbtn">
+                            		<a href="#" class="howtouse3">
+                                   		<div class="footerhover normal"><img src="image/arjithover.png"/></div>                                    
+                                    	<div><img src="image/ex_1.jpg"/></div>
+                                    </a>
+                            </li>
+                            
+                            <li class="feedbtn">
+                            		<a href="#" class="howtouse7">
+                                    	<div class="footerhover center"><img src="image/feedhover.png"/></div>
+                                    	<div><img src="image/ex_2.jpg"/></div>
+                              </a>
+                            </li>
+                            <li class="tvcbtn">
+                            		<a href="#">
+                                    	<div class="footerhover normal"><img src="image/tvchover.png"/></div>
+                                        <div><img src="image/ex_3.jpg"/></div>
+                              </a>
+                            </li>
+                    	</ul>
+                    </div><!-- hidepart -->
+                </div>
+  </div>
+  <div class="scroll_to">
+<div class="policy">
+©2014 Reckitt Benckiser, Inc. All rights reserved.
+</div>
+	<div class="terms">
+	<img src="image/scroll.png"  style="margin:0px; padding:0px;"/>
+	</div>
+    
+    <div class="last_part">
+    <h2><a href="#" class="howtouse8">Terms & Conditions</a> &nbsp;<strong>|</strong>&nbsp; <a href="#" class="howtouse8">Privacy Policy</a></h2>
+    </div>
+    
+</div>
+    
+</div>
+
+</body>
+</html>

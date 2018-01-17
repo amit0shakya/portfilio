@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Carbonn Banner</title>
+</head>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/CSSPlugin.min.js"></script>
+<script type="text/javascript" src="js/EasePack.min.js"></script>
+<script type="text/javascript" src="js/TweenLite.min.js"></script>
+
+<script>
+	$(document).ready(function(){
+		$(".main").css({"display":"none"});
+		
+	
+			var t=$('body').find('img');
+			var loadedImg=0;
+			for(i=0; i<t.length;i++){
+				var img=t[i];
+				$(img).load(function(){
+					loadedImg++;
+					if(loadedImg>=t.length)	{
+						$(".main").css({"display":"block"});
+						bannerInit();
+						bannerstart();
+					}
+				});
+		}
+	});
+	
+	
+	function bannerstart(){
+		//raider animation
+		var imgNo=1;
+		var Ypos=0;
+		var Xpos=0;
+		setInterval(animateBicycle,85)
+		
+		function animateBicycle(){
+			
+			$(".bicycleSQ").css({"left":(Xpos*(-1))+"px","top":(Ypos*(-1))+"px"})
+			
+			Xpos+=179;
+			imgNo++;
+			
+			if(imgNo==11){
+				Xpos=0;
+				Ypos+=179;
+				
+			}
+			
+			if(imgNo>=20){
+				Xpos=0;
+				Ypos=0;
+				imgNo=1;
+			}	
+		}
+	}
+	
+	function bannerReset(){
+		TweenLite.to([".f1txt1",".f1txt2",".f1txt3",".f1txt4",".f2t1",".f2t2",".f3t1",".f3t2"],0,{y:-300, alpha:0});
+		TweenLite.to([".f2t3",".f4t1",".f4t2"],0,{x:180,alpha:0});
+		TweenLite.to([".f2t4",".f4m1",".f4m2"],0,{x:-180,alpha:0});
+		TweenLite.to([".f1mob"],0,{x:-200, alpha:.5})
+		
+		TweenLite.to([".f2m2"],0,{x:100, alpha:0,rotation:10})
+		TweenLite.to([".camflash"],0,{alpha:0})
+		TweenLite.to(".buynow",0,{y:100,alpha:0,css:{"display":"none"}});
+		
+		TweenLite.to([".vid"],0,{y:200,alpha:0,css:{"display":"none"}})
+		$(".f1mobSQ").css({"left":"0px","top":"0px"})
+	}
+	
+	function bannerInit(){
+		console.log("bannerInit");
+		bannerReset();
+		frame1Anim();
+		cycleAnim();
+		
+		TweenLite.to(".cloud2",10,{x:-400,ease:Power0.easeNone,onComplete:function(){
+			cloud2anim();
+		}});
+		
+		TweenLite.to(".cloud3",35,{x:-1200,ease:Power0.easeNone,onComplete:function(){
+			cloud3anim();
+		}});
+		
+	}
+	
+	function frame1Anim(){
+		f1mobInt=setInterval(f1mobileAn1,50)
+		
+		TweenLite.to(".f1mob",1,{x:0, alpha:1,ease:Back.easeOut})
+		
+		TweenLite.to(".f1txt4",0,{alpha:0,y:0,x:200,ease:Quad.easeOut});		
+		TweenLite.to(".f1txt3",0,{alpha:0,y:0,x:-200,ease:Quad.easeOut});		
+		
+		TweenLite.to([".f1txt2"],.5,{alpha:1,y:0,ease:Quad.easeOut});
+		TweenLite.to([".f1txt1"],.5,{alpha:1,y:0,ease:Quad.easeOut,delay:.1});
+		
+		TweenLite.to(".f1txt4",.5,{alpha:1,y:0,x:10,ease:Quad.easeOut});		
+		TweenLite.to(".f1txt3",.5,{alpha:1,y:0,x:-10,ease:Quad.easeOut});
+		
+		TweenLite.to(".f1txt4",3.5,{alpha:1,y:0,x:-10,ease:Power0.easeNone,delay:.5});		
+		TweenLite.to(".f1txt3",3.5,{alpha:1,y:0,x:10,ease:Power0.easeNone,delay:.5});
+		
+		TweenLite.to(".f1txt4",.5,{alpha:0,y:0,x:-400,ease:Power0.easeOut,delay:3.5});		
+		TweenLite.to(".f1txt3",.5,{alpha:0,y:0,x:400,ease:Power0.easeOut,delay:3.5,onComplete:function(){
+			TweenLite.delayedCall(0,frame2Anim)
+		}});
+	}
+	
+	var f1mobInt;
+	var f1mobpic=1;
+
+	function f1mobileAn1(){
+		var xp=194*f1mobpic;
+		$(".f1mobSQ").css({"left":(xp*(-1))+"px"})
+		f1mobpic++;
+		if(f1mobpic>=7){
+			clearInterval(f1mobInt);
+		}
+	}
+	
+	function frame2Anim(){
+		f2mobInt=setInterval(f2mobileAn2,50)
+		f2mobInt2=setInterval(f1mobileAn3,50)
+		
+		TweenLite.to([".f1txt2",".f1txt1"],.5,{alpha:0,y:10,ease:Quad.easeOut});
+		
+		TweenLite.to([".f2t2"],.5,{alpha:1,y:0,ease:Quad.easeOut,delay:.6});
+		TweenLite.to([".f2t1"],.5,{alpha:1,y:0,ease:Quad.easeOut,delay:.7});
+		
+		TweenLite.to([".f1mob"],.5,{x:110,y:-10,ease:Back.easeOut});
+		TweenLite.to([".f2m2"],.5,{x:0, alpha:1,rotation:0,ease:Quad.easeOut,delay:.5})
+		
+		TweenLite.to([".f2t3"],.8,{x:-20,alpha:1,ease:Quad.easeOut,delay:1});
+		TweenLite.to([".f2t4"],.8,{x:10,alpha:1,ease:Quad.easeOut,delay:1.1,onComplete:function(){
+				TweenLite.delayedCall(4,frame4Anim)
+		}});
+		
+		TweenLite.to([".f2t3"],4.2,{x:-40,alpha:1,ease:Quad.easeOut,delay:1.8});
+		TweenLite.to([".f2t4"],4.2,{x:40,alpha:1,ease:Quad.easeOut,delay:1.9});
+	}
+	
+	var f2mobInt;
+	var f2mobpic=1;
+	
+	function f2mobileAn2(){
+		var xp=(82*f2mobpic);
+			$(".wp").css({"left":(xp*(-1))+"px"})
+			f2mobpic++;
+	
+			if(f2mobpic>=10){
+				clearInterval(f2mobInt);
+			}
+	}
+	
+	var f2mobInt2;
+	var f2mobpic2=6;
+	
+	function f1mobileAn3(){
+		var xp=194*f2mobpic2;
+		
+		$(".f1mobSQ").css({"left":(xp*(-1))+"px"})
+		f2mobpic2--;
+
+		if(f2mobpic2<0){
+			clearInterval(f2mobInt2);
+		}
+	}
+	
+	function frame4Anim(){
+		TweenLite.to([".f2t3"],.5,{x:-280,alpha:0,ease:Quad.easeOut});
+		TweenLite.to([".f2t4"],.5,{x:280,alpha:0,ease:Quad.easeOut,delay:.1});
+		
+		TweenLite.to([".f2t1",".f2t2"],.5,{alpha:0,y:10,ease:Quad.easeOut});
+		TweenLite.to([".f2m2"],.5,{x:0,alpha:0,ease:Quad.easeOut});
+		
+		TweenLite.to([".camflash"],0,{scale:.6,delay:.8});
+		TweenLite.to([".camflash"],.1,{alpha:1,delay:.8});
+		TweenLite.to([".camflash"],.2,{scale:4,delay:.9,onComplete:function(){
+				TweenLite.to([".camflash"],0,{alpha:0});
+		}});
+		
+		TweenLite.to([".f3t2"],.5,{alpha:1,y:0,ease:Quad.easeOut,delay:1});
+		TweenLite.to([".f3t1"],.5,{alpha:1,y:0,ease:Quad.easeOut,delay:1.1,onComplete:function(){
+				f4mobInt=setInterval(f1mobileAn4,50);
+		}});
+		
+		TweenLite.to([".f1mob"],.5,{y:5,x:25,ease:Quad.easeOut,delay:1.6});
+		
+		TweenLite.to([".f4m1",".f4t1"],.5,{x:0,alpha:1,ease:Back.easeOut,delay:2});
+		TweenLite.to([".f4m2",".f4t2"],.5,{x:0,alpha:1,ease:Back.easeOut,delay:2.1,onComplete:function(){
+				TweenLite.delayedCall(6,frame5Anim)
+		}});
+
+	}
+	
+	function frame5Anim(){
+		TweenLite.to([".f1txt2",".f1txt1"],0,{y:-300,ease:Quad.easeOut});
+		TweenLite.to([".vid",".buynow"],0,{css:{"display":"block"}});
+		TweenLite.to([".buynow"],0,{y:80,alpha:0});
+				
+		TweenLite.to([".f3t1",".f3t2",".phonewifreframe"],.5,{alpha:0,y:10,ease:Quad.easeOut});
+		TweenLite.to([".f4m1",".f4m2",".f4t1",".f4t2"],.5,{alpha:0,ease:Quad.easeOut});
+		TweenLite.to([".f1mob"],.5,{alpha:0,x:-20,ease:Quad.easeOut});
+		
+		TweenLite.to([".f1txt2"],.5,{alpha:1,y:-30,ease:Quad.easeOut,delay:.7});
+		TweenLite.to([".f1txt1"],.5,{alpha:1,y:-30,ease:Quad.easeOut,delay:.8});
+		
+		TweenLite.to([".vid"],.8,{y:0,alpha:1,delay:.8})
+		TweenLite.to(".buynow",.8,{y:0,alpha:1,delay:1.8,ease:Back.easeOut});
+	}
+	
+	var f4mobInt;
+	var f4mobpic=1;
+
+	function f1mobileAn4(){
+		var xp=194*f4mobpic;
+		var yp=0;
+		
+		if(f4mobpic>=4){
+			yp=-354;
+		}
+		
+		$(".f1mobSQ").css({"left":(xp*(-1))+"px","top":yp+"px"})
+		f4mobpic++;
+		
+		if(f4mobpic>=7){
+			clearInterval(f4mobInt);
+		}
+	}
+	
+	function cloud3anim(){
+		TweenLite.to(".cloud3",0,{x:400})
+		TweenLite.to(".cloud3",40,{x:-1200,ease:Power0.easeNone,onComplete:function(){
+			cloud2anim();
+		}})
+	}
+	
+	function cloud2anim(){
+		TweenLite.to(".cloud2",0,{x:1100})
+		TweenLite.to(".cloud2",35,{x:-400,ease:Power0.easeNone,onComplete:function(){
+			cloud2anim();
+		}})
+	}
+	
+	function cycleAnim(){
+		TweenLite.to(".raider",0,{x:0})
+		TweenLite.to(".raider",20,{x:-1200,ease: Power0.easeNone,onComplete:function(){
+			cycleAnim()
+		}})
+	}
+	
+	
+	function ctahover(){
+		$(".buyimg").css({'top':'-52px'});
+	}
+
+	
+	function ctaout(){
+		$(".buyimg").css({'top':'0px'});
+	}
+	
+//window.onload=bannerInit
+	
+</script>
+
+<style>
+	*{margin:0; padding:0px;}
+	.main{position:relative; width:900px; height:571px;overflow:hidden; background-color:#9dd8f2;/*background-image:url(images/Delete/guide2.jpg);*/ border:1px solid #000000;}
+	.raider{width:180px; height:180px; position:absolute; top:380px; left:900px; overflow:hidden;}
+	.bicycleSQ{position:absolute;top:0px; left:0px;}
+	.vid{position:absolute; top:155px; left:250px; z-index:10; border:1px solid #fff; height:240px;box-shadow: 5px 5px 5px #888888;}
+	.bgimages{width:100%; height:571px; position:relative;top:0px; left:0px; }
+	.trees{width:900px; height:351px; position:absolute; bottom:40px; opacity:.6;}
+	.txt{position:absolute; top:65px; left:0px; right:0px; margin:0 auto;}
+	.logo{position:absolute; top:3px; right:5px;}
+	.cloud1{position:absolute; top:220px; left:10px;}
+	.cloud2{position:absolute; top:160px; left:150px;}
+	.cloud3{position:absolute; top:330px; left:680px;}
+	
+	.f1txt1,.f1txt2,.f1txt3,.f1txt4,.f2t1,.f2t2,.f2t3,.f2t4,.f3t1,.f3t2,.f4t1,.f4t2,.f4t1,.f4t2{ position:absolute; top:95px; left:0px; right:0px; margin:0 auto;}
+	.f1txt2{top:142px;}
+	.f1txt3{top:295px; left:335px;}
+	.f1txt4{top:344px; left:437px;}
+	.f1mob{width:193px; height:354px; position:absolute;  overflow:hidden;top:183px; left:325px;}
+	.f1mobSQ{position:absolute; left:0px; top:0px;}
+	.phonewifreframe{width:82px; height:170px; position:absolute; overflow:hidden; top:27px; left:283px;}
+	.wp{position:absolute; top:0px; left:0px;}
+	.f2t1{top:71px; left:50px;}
+	.f2t2{top:117px; left:160px;}
+	.f2m2{position:absolute; top:195px; left:360px;}
+	.f2t3{top:285px; left:-221px;}
+	.f2t4{top:231px;left:449px;}
+	.f3t1{top:71px; left:7px; }
+	.f3t2{top:120px;left:33px;}
+	.f4m1{left:578px;top:307px; position:absolute; }
+	.f4m2{left:578px;top:219px; position:absolute;}
+	.f4t1{left:587px;top:227px; }
+	.f4t2{left:550px;top:315px; }
+	.camflash{position:absolute; top:125px; left:410px;}
+	.road{width:900px; height:41px; position:absolute; left:0px; bottom:0px; background-color:#a5adae;}
+	.roadDivider{position:absolute;left:0px; top:0px;}
+	.buynow{position:absolute; width:142px; height:52px; left:380px; top:418px; right:0px; overflow:hidden; cursor:pointer;}
+	.buyimg{position:absolute; top:0px; left:0px;}
+</style>
+<body>
+    
+<div class="main">
+    <div class="vid">
+            <iframe width="427" height="240" src="https://www.youtube.com/embed/xO0F9XYXxS0" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+   <img src="images/logo.png" class="logo"/>
+    <img src="images/cloud1.png" class="cloud1"/>
+    <img src="images/cloud2.png" class="cloud2"/>
+    <img src="images/cloud3.png" class="cloud3"/>
+	<div class="road">
+    	<img src="images/roadimg.png" class="roadDivider"/>
+    </div>
+	<div class="trees">
+            <img src="images/bg.png"/>
+        </div>
+
+    <div class="bgimages">
+    	<div class="raider">
+        	<img class="bicycleSQ" src="images/cycle_animation.png"/>
+        </div>
+       
+	</div>
+
+    	<img src="images/12.7.png" class="f2t3"/>
+        <img src="images/720.png" class="f2t4"/>
+    
+    	<img src="images/phone_bck.png" class="f4m1"/>
+        <img src="images/phone_frnt.png" class="f4m2"/>
+        
+        <img src="images/f4txt1.png" class="f4t1"/>
+        <img src="images/f4t2.png" class="f4t2"/>
+    
+     <div class="f1mob">
+                <img src="images/phone_sprite2.png" class="f1mobSQ"/>
+        </div>
+    
+        <img src="images/txt1.png" class="f1txt1"/>
+        <img src="images/txt2.png" class="f1txt2"/>
+        <img src="images/quattro.png" class="f1txt3"/>
+        <img src="images/L50HD.png" class="f1txt4"/>
+
+        <!-- frame 2 elements -->
+        <div class="phonewifreframe">
+            <img src="images/wirephonesprite.png" class="wp"/>
+        </div>
+        
+    	<img src="images/f2txt1.png" class="f2t1"/>
+    	<img src="images/f2txt2.png" class="f2t2"/>        
+    	<img src="images/phone2.png" class="f2m2"/>
+ 		<img src="images/camflash.png" class="camflash"/>
+        
+        <img src="images/super.png" class="f3t1"/>
+        <img src="images/capture.png" class="f3t2"/>
+        
+        <div class="buynow" onMouseOver="ctahover()" onMouseOut="ctaout()">
+        	<img src="images/buynow.png" class="buyimg"/>
+        </div>
+</div>
+
+</body>
+</html>

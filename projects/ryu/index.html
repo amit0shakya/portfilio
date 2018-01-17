@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script src="easeljs-0.8.1.min.js"></script>
+<script src="soundjs-0.6.1.min.js"></script>
+
+<title>Untitled Document</title>
+</head>
+<script>
+	var spriteSheet;
+	var AnimSprites;
+	var rightKey=false;
+	var upKey=false;
+	var keyDown=false;
+	var Haduken='Haduken';
+	var SuperKick='SuperKick';
+	
+	function init() {
+		setup()
+	}
+
+	function setup(){			
+			stage = new createjs.Stage(document.getElementById("mycanvas"));
+			
+			createjs.Sound.registerSound("haduken.mp3", Haduken);
+			createjs.Sound.registerSound("SuperKick.mp3", SuperKick);
+			
+			spriteSheet = new createjs.SpriteSheet(
+			{
+			framerate: 8,
+			"images": ["game_spritesheet.png"],
+			"frames": {"height": 150,"width": 150,"count": 71,"regX":0,"regY":0,
+			  "spacing":0,
+			  "margin":0
+			},
+			"animations": {
+			  "walk":[2,6,"stand"],
+			  "stand":[0],"sit":[7],
+  			  "jump":[9,14,"stand"],
+			  "jumpf":[17,23,"stand"],
+			  "punch":[25,26,"stand"],
+			  "kick":[28,28,"stand"],
+			  "big_kick":[30,34,"stand"],
+			  "waiting":[36,39,"waiting"],
+			  "roundkick":[43,46,"roundfly"],
+			  "roundfly":[49,52,"stand"],
+			  "superpunch":[57,62,"stand"],
+			}
+		  });
+		  
+		  var eve = createjs.extend(spriteSheet, createjs.EventDispatcher)
+		  eve.complete=function(){
+		  	alert("done")
+		  }
+		  
+		  AnimSprites = new createjs.Sprite(spriteSheet,'stand');
+		  AnimSprites.x = 100;
+		  AnimSprites.y = 130;
+          AnimSprites.alpha = 1;
+		 //AnimSprites.gotoAndstop("stand")
+		  
+		 stage.addChild(AnimSprites);
+		  
+		 createjs.Ticker.timingMode = createjs.Ticker.RAF;
+		 createjs.Ticker.addEventListener("tick", stage);
+	}
+	
+	function action(which){
+		if(which=='superpunch'){
+			createjs.Sound.play(Haduken);
+		}else if(which=='roundkick'){
+			createjs.Sound.play(SuperKick);
+		}
+		
+		AnimSprites.gotoAndPlay(which);
+	}
+	
+	document.addEventListener("keydown",kp)
+	document.addEventListener("keyup",ku)
+	
+	function kp(e){
+		var mt;
+		switch(e.keyCode){
+			case 39:	rightKey=true;
+								break;
+			case 38:	upKey=true;
+								break;
+		}
+					
+		if((upKey)&&(!rightKey)){
+//			mt=setTimeout(action,400,[]
+			action('jump')
+		}else if((upKey)&&(rightKey)){
+			action('jumpf')
+		}
+	}
+	
+	function ku(e){
+		switch(e.keyCode){
+			case 39:	rightKey=false;
+						break;
+			case 38:	upKey=false;
+						break;
+		}
+	}
+
+</script>
+
+<style>
+	*{ margin:0px; padding:0px;}
+	.btn{width:100px; height:25px; border-radius:5px; border:1px solid #000; line-height:25px; text-align:center; padding:0px 10px; display:block; cursor:pointer; margin:5px 12px;float:left;}
+	#mycanvas{background-image:url(BG.jpg);}
+	.controls{width:600px; height:400px;}
+</style>
+
+<body onLoad="init()">
+	<canvas width="600" height="300" id="mycanvas"></canvas>
+    <div class="controls">
+    	<div class="btn" onClick="action('kick')">Kick</div>
+	    <div class="btn" onClick="action('big_kick')">Round Kick</div>
+        <div class="btn" onClick="action('roundkick')">Super Kick</div>
+        <div class="btn" onClick="action('jump')">Jump</div>
+        <div class="btn" onClick="action('jumpf')">Jump forward</div>
+        <div class="btn" onClick="action('punch')">Punch</div>
+        <div class="btn" onClick="action('superpunch')">Super punch</div>
+    </div>
+</body>
+</html>
